@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.9.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'Hrm-Client'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+    jcenter()
+}
+
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework:spring-jdbc")
+    compile("com.h2database:h2")
+    compile 'org.springframework.boot:spring-boot-starter-security:1.1.5.RELEASE'
+    compile 'org.springframework.ldap:spring-ldap-core:2.0.2.RELEASE'
+    compile 'org.springframework.security:spring-security-ldap:3.2.5.RELEASE'
+    testCompile("junit:junit")
+    testCompile "org.mockito:mockito-core:1.8.4"
+    testCompile "org.springframework:spring-test:4.0.3.RELEASE"
+    testCompile 'com.jayway.restassured:rest-assured:2.4.0'
+}
