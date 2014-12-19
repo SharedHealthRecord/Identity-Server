@@ -1,24 +1,22 @@
 package org.freeshr.identity.controller;
 
 import org.freeshr.identity.model.UserCredentials;
-import org.freeshr.identity.service.UserCredentialsService;
+import org.freeshr.identity.model.UserInfo;
+import org.freeshr.identity.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.UUID;
 
 @RestController
 public class IdentityController {
-    private UserCredentialsService userCredentialsService;
+    private IdentityService identityService;
 
     @Autowired
-    public IdentityController(UserCredentialsService userCredentialsService) {
-        this.userCredentialsService = userCredentialsService;
+    public IdentityController(IdentityService identityService) {
+        this.identityService = identityService;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST,
@@ -26,7 +24,7 @@ public class IdentityController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String login(@RequestBody UserCredentials userCredentials) {
         DeferredResult<String> deferredResult = new DeferredResult<String>();
-        UUID result = userCredentialsService.verify(userCredentials);
+        UUID result = identityService.login(userCredentials);
 
         if (null == result) {
             throw new BadCredentialsException("Invalid Credentials");
@@ -34,19 +32,14 @@ public class IdentityController {
         return result.toString();
 
     }
-//
-//    @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
-//    public DeferredResult<ResponseObject> getUserCredential(@PathVariable String token) {
-//        DeferredResult<ResponseObject> deferredResult = new DeferredResult<ResponseObject>();
-//        String result = userCredentialsService.getUserCredential(token);
-//        if (StringUtils.isEmpty(result)) {
-//            deferredResult.setErrorResult(new BadCredentialsException("Invalid token"));
-//        }
-//        ResponseObject responseObject = new ResponseObject();
-//        responseObject.setLogin(result);
-//        responseObject.setToken(token);
-//        deferredResult.setResult(responseObject);
-//        return deferredResult;
-//    }
+
+    @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
+    public UserInfo userInfo(@PathVariable UUID token) {
+        UserInfo userInfo = identityService.userInfo(token);
+        if (null == userInfo) {
+            throw new BadCredentialsException("Invalid token");
+        }
+        return userInfo;
+    }
 
 }

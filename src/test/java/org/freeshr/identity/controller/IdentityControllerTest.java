@@ -4,7 +4,9 @@ package org.freeshr.identity.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeshr.identity.launch.ApplicationConfiguration;
 import org.freeshr.identity.model.UserCredentials;
-import org.freeshr.identity.service.UserCredentialsService;
+import org.freeshr.identity.model.UserInfo;
+import org.freeshr.identity.service.IdentityService;
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,21 +37,21 @@ public class IdentityControllerTest {
     private String password = "bar";
 
     @Mock
-    UserCredentialsService service;
+    IdentityService service;
 
     protected ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mockMvc= MockMvcBuilders.standaloneSetup(new IdentityController(service)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new IdentityController(service)).build();
     }
 
     @Test
     public void shouldCreateTokenOnSuccessfulLogin() throws Exception {
         UserCredentials userCredentials = new UserCredentials(user, password);
         UUID uuid = UUID.randomUUID();
-        Mockito.when(service.verify(userCredentials)).thenReturn(uuid);
+        Mockito.when(service.login(userCredentials)).thenReturn(uuid);
 
         String content = objectMapper.writeValueAsString(userCredentials);
 
@@ -58,13 +61,13 @@ public class IdentityControllerTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        Mockito.verify(service).verify(userCredentials);
+        Mockito.verify(service).login(userCredentials);
     }
 
     @Test
     public void shouldRespond403OnBadCredentials() throws Exception {
         UserCredentials userCredentials = new UserCredentials(user, password);
-        Mockito.when(service.verify(userCredentials)).thenReturn(null);
+        Mockito.when(service.login(userCredentials)).thenReturn(null);
 
         String content = objectMapper.writeValueAsString(userCredentials);
 
@@ -74,39 +77,30 @@ public class IdentityControllerTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(403));
 
-        Mockito.verify(service).verify(userCredentials);
+        Mockito.verify(service).login(userCredentials);
     }
-//
-//    @Test
-//    public void shouldGiveErrorIfUserNotVerify() throws Exception {
-//
-//        UserCredentials userCredentials = new UserCredentials();
-//        userCredentials.setName(user);
-//        userCredentials.setPassword(password);
-//        Mockito.when(service.verify(userCredentials)).thenReturn(null);
-//        String json = objectMapper.writeValueAsString(userCredentials);
-//        mockMvc.perform(MockMvcRequestBuilders.post("/login").content(json).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().is(403));
-//        Mockito.verify(service).verify(userCredentials);
-//    }
-//
-//    @Test
-//    public void shouldGetTokenDetail() throws Exception {
-//
-//        UserCredentials userCredentials = new UserCredentials();
-//        String token = "token";
-//        userCredentials.setName(user);
-//        userCredentials.setPassword(password);
-//        ResponseObject responseObject = new ResponseObject();
-//        responseObject.setToken(token);
-//        responseObject.setLogin(user);
-//        Mockito.when(service.getUserCredential(token)).thenReturn(user);
-//        mockMvc.perform(MockMvcRequestBuilders.get("/userInfo/" + token).contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.login", Is.is(user)))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.token", Is.is(token)));
-//        Mockito.verify(service).getUserCredential(token);
-//    }
 
+    @Test
+    public void shouldGetUserInfoGivenToken() throws Exception {
+        UserInfo userInfo = new UserInfo(user, getRoles(), "123");
+        UUID token = UUID.randomUUID();
+        Mockito.when(service.userInfo(token)).thenReturn(userInfo);
+        mockMvc.perform(MockMvcRequestBuilders.get("/userInfo/" + token).
+                contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.user", Is.is(user)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.locationCode", Is.is("123")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles[0]", Is.is("shr.user")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles[1]", Is.is("mci.admin")));
+        Mockito.verify(service).userInfo(token);
+    }
+
+    private HashSet<String> getRoles() {
+        HashSet<String> strings = new HashSet<>();
+        strings.add("mci.admin");
+        strings.add("shr.user");
+        return strings;
+    }
 
 }
