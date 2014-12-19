@@ -35,3 +35,18 @@ dependencies {
     testCompile "org.springframework:spring-test:4.0.3.RELEASE"
     testCompile 'com.jayway.restassured:rest-assured:2.4.0'
 }
+
+
+def getRunProcessBuilder() {
+    Properties properties = new Properties();
+    def builder = new ProcessBuilder('./gradlew', 'run')
+    builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+    return builder
+}
+
+
+task runIS << {
+    ProcessBuilder builder = getRunProcessBuilder()
+    Process process = builder.start();
+    process.waitFor();
+}

@@ -22,7 +22,7 @@ public class IdentityController {
     @RequestMapping(value = "/login", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody UserCredentials userCredentials) {
+    public @ResponseBody String login(@RequestBody UserCredentials userCredentials) {
         DeferredResult<String> deferredResult = new DeferredResult<String>();
         UUID result = identityService.login(userCredentials);
 
@@ -34,7 +34,7 @@ public class IdentityController {
     }
 
     @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
-    public UserInfo userInfo(@PathVariable UUID token) {
+    public @ResponseBody UserInfo userInfo(@PathVariable UUID token) {
         UserInfo userInfo = identityService.userInfo(token);
         if (null == userInfo) {
             throw new BadCredentialsException("Invalid token");
