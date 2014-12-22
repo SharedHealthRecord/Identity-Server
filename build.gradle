@@ -42,8 +42,13 @@ dependencies {
 
 
 def getRunProcessBuilder() {
-    Properties properties = new Properties();
     def builder = new ProcessBuilder('./gradlew', 'run')
+    builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+    return builder
+}
+
+def getDebugProcessBuilder() {
+    def builder = new ProcessBuilder('./gradlew', 'run', '--debug', '--debug-jvm')
     builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
     return builder
 }
@@ -51,6 +56,12 @@ def getRunProcessBuilder() {
 
 task runIS << {
     ProcessBuilder builder = getRunProcessBuilder()
+    Process process = builder.start();
+    process.waitFor();
+}
+
+task debugIS << {
+    ProcessBuilder builder = getDebugProcessBuilder()
     Process process = builder.start();
     process.waitFor();
 }
@@ -64,3 +75,4 @@ cobertura {
 }
 
 test.finalizedBy(project.tasks.cobertura)
+
