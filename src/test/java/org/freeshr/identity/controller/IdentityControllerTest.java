@@ -7,6 +7,7 @@ import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
 import org.freeshr.identity.service.IdentityService;
 import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,8 +92,8 @@ public class IdentityControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.user", Is.is(user)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.locationCode", Is.is("123")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roles[0]", Is.is("shr.user")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roles[1]", Is.is("mci.admin")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("shr.user")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("mci.admin")));
         Mockito.verify(service).userInfo(token);
     }
 
