@@ -37,7 +37,7 @@ public class IdentityController {
     public @ResponseBody UserInfo userInfo(@PathVariable UUID token) {
         UserInfo userInfo = identityService.userInfo(token);
         if (null == userInfo) {
-            throw new BadCredentialsException("Invalid token");
+            throw new InvalidTokenException("Invalid token");
         }
         return userInfo;
     }

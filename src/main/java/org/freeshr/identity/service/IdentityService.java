@@ -28,7 +28,7 @@ public class IdentityService {
 
     public UserInfo userInfo(UUID token) {
         UserCredentials userCredentials = loginRepository.getUserByToken(token);
-        return userInfoRepository.getUserInfo(userCredentials.getName());
+        return userCredentials == null ? null : userInfoRepository.getUserInfo(userCredentials.getName());
     }
 
 }

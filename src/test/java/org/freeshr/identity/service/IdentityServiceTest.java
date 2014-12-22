@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -49,6 +50,20 @@ public class IdentityServiceTest {
 
         IdentityService identityService = new IdentityService(loginRepository, userInfoRepository);
         assertEquals(identityService.userInfo(uuid), userInfo);
+
+    }
+
+    @Test
+    public void shouldRespondNullForInvalidToken() throws Exception {
+        UserCredentials userCredentials = new UserCredentials("mogambo", "khushua");
+        UserInfo userInfo = new UserInfo("mogambo", null, "123" );
+        UUID uuid = UUID.randomUUID();
+        when(loginRepository.login(userCredentials)).thenReturn(uuid);
+        when(loginRepository.getUserByToken(uuid)).thenReturn(userCredentials);
+        when(userInfoRepository.getUserInfo("mogambo")).thenReturn(userInfo);
+
+        IdentityService identityService = new IdentityService(loginRepository, userInfoRepository);
+        assertNull(identityService.userInfo(UUID.randomUUID()));
 
     }
 }

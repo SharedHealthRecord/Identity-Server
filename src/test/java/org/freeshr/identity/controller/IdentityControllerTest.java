@@ -66,7 +66,7 @@ public class IdentityControllerTest {
     }
 
     @Test
-    public void shouldRespond403OnBadCredentials() throws Exception {
+    public void shouldRespond401OnBadCredentials() throws Exception {
         UserCredentials userCredentials = new UserCredentials(user, password);
         Mockito.when(service.login(userCredentials)).thenReturn(null);
 
@@ -76,7 +76,7 @@ public class IdentityControllerTest {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is(403));
+                .andExpect(MockMvcResultMatchers.status().is(401));
 
         Mockito.verify(service).login(userCredentials);
     }
@@ -94,6 +94,17 @@ public class IdentityControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.locationCode", Is.is("123")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("shr.user")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("mci.admin")));
+        Mockito.verify(service).userInfo(token);
+    }
+
+    @Test
+    public void shouldRespondNOTFOUNDForInvalidToken() throws Exception {
+        UUID token = UUID.randomUUID();
+        Mockito.when(service.userInfo(token)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders.get("/userInfo/" + token).
+                contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(404));
         Mockito.verify(service).userInfo(token);
     }
 
