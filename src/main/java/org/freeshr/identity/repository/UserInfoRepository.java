@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Component
-public class UserInfoRepository extends Repository {
+public class UserInfoRepository extends PropertyReader {
     Map<String, UserInfo> users = new HashMap<>();
 
     public UserInfoRepository() {

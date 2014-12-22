@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Repository {
-
+public class PropertyReader {
     protected Properties loadProperties() {
         Properties properties = new Properties();
         String propFileName = "userDetail.properties";

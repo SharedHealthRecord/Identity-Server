@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 @Component
-public class LoginRepository extends Repository {
+public class LoginRepository extends PropertyReader {
     Map<String, String> users = new HashMap<>();
     Map<UUID, UserCredentials> sessions = new HashMap<>();
     Map<String, UUID> userTokens = new HashMap<>();
