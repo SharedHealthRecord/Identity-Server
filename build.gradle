@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Copy
+
 buildscript {
     repositories {
         maven { url "https://repo.spring.io/libs-release" }
@@ -8,6 +10,7 @@ buildscript {
         classpath(
                 'org.springframework.boot:spring-boot-gradle-plugin:1.1.9.RELEASE'
                 , 'net.saliman:gradle-cobertura-plugin:2.2.4'
+                , 'com.netflix.nebula:gradle-ospackage-plugin:2.+'
         )
     }
 }
@@ -17,9 +20,11 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'cobertura'
+apply plugin: 'rpm'
+apply plugin: 'war'
 
 jar {
-    baseName = 'stub-idp'
+    baseName = 'identity-service'
     version =  '0.1.0'
 }
 
@@ -75,4 +80,68 @@ cobertura {
 }
 
 test.finalizedBy(project.tasks.cobertura)
+
+
+mainClassName = "org.freeshr.identity.launch.Application"
+
+war {
+    from sourceSets.main.resources
+    manifest {
+        attributes('Main-Class': mainClassName)
+    }
+}
+
+private Properties loadConfig() {
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(file("${projectDir}/env/local.properties")));
+    properties
+}
+
+task assembly(dependsOn: 'build') << {
+    new File("${buildDir}/etc/").mkdir();
+}
+
+task exportProperties(dependsOn: 'assembly') << {
+    PrintStream output = new PrintStream(new FileOutputStream(file("${buildDir}/etc/identity-server")));
+    Properties properties = loadConfig()
+    properties.each { prop, val ->
+        output.println("export " + prop + "=" + val)
+    }
+}
+
+task dist(dependsOn: 'exportProperties', type: Rpm) {
+    packageName = 'identity-server'
+    version = '0.1'
+    release = 1
+    arch = NOARCH
+    os = LINUX
+
+    into '/opt/identity-server'
+
+    postInstall = file('scripts/utils/postInstall.sh')
+    preUninstall = file('scripts/utils/preUninstall.sh')
+    postUninstall = file('scripts/utils/postUninstall.sh')
+
+    from("${buildDir}/etc") {
+        fileMode = 0755
+        into 'etc'
+    }
+
+    from("scripts/rpm") {
+        fileMode = 0755
+        exclude 'placeholder'
+        into 'bin'
+    }
+
+    from("${buildDir}/libs") {
+        fileMode = 0755
+        into 'lib'
+    }
+
+    from("scripts/rpm") {
+        fileMode = 0755
+        exclude 'identity-server'
+        into 'var'
+    }
+}
 

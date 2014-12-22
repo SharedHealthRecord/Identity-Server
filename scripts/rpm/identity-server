@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# identity-server        This shell script takes care of starting and stopping
+#              the identity-server system
+#
+# chkconfig: - 64 36
+# description: Stub identity-server for shared health record system
+# processname: identity-server
+# config: /etc/default/identity-server
+# pidfile: /var/run/identity-server/identity-server.pid
+### BEGIN INIT INFO
+# Provides: identity-server
+# Required-Start: $local_fs $remote_fs $network $named $syslog $time
+# Required-Stop: $local_fs $remote_fs $network $named $syslog $time
+# Short-Description: start and stop identity-server system,
+# Description: identity-server system
+### END INIT INFO
+
+. /etc/default/identity-server
+
+if [[ ! -e /var/run/identity-server ]]; then
+    ln -s /opt/identity-server/var /var/run/identity-server
+fi
+
+if [[ ! -e /var/log/identity-server ]]; then
+    mkdir /var/log/identity-server
+fi
+
+case "$1" in
+  start)
+    nohup java -Dserver.port=$IDENTITY_SERVER_PORT -jar /opt/identity-server/lib/IdentityService.war >/var/log/identity-server/identity-server.log &
+    echo $! > /var/run/identity-server/identity-server.pid
+    ;;
+  stop)
+    (cat /var/run/identity-server/identity-server.pid |  xargs -n 1 kill) || (true)
+    ;;
+esac
