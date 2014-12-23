@@ -60,7 +60,9 @@ public class IdentityControllerTest {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string(IdentityController.X_AUTH_TOKEN,
+                        Is.is(uuid.toString())));
 
         Mockito.verify(service).login(userCredentials);
     }
@@ -76,7 +78,8 @@ public class IdentityControllerTest {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is(401));
+                .andExpect(MockMvcResultMatchers.status().is(401))
+                .andExpect(MockMvcResultMatchers.header().doesNotExist(IdentityController.X_AUTH_TOKEN));
 
         Mockito.verify(service).login(userCredentials);
     }
@@ -92,8 +95,8 @@ public class IdentityControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.user", Is.is(user)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.locationCode", Is.is("123")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("shr.user")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roles",  IsCollectionContaining.hasItem("mci.admin")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles", IsCollectionContaining.hasItem("shr.user")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roles", IsCollectionContaining.hasItem("mci.admin")));
         Mockito.verify(service).userInfo(token);
     }
 

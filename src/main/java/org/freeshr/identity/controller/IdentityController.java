@@ -6,12 +6,13 @@ import org.freeshr.identity.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @RestController
 public class IdentityController {
+    public static String X_AUTH_TOKEN = "X-Auth-Token";
     private IdentityService identityService;
 
     @Autowired
@@ -22,15 +23,14 @@ public class IdentityController {
     @RequestMapping(value = "/login", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String login(@RequestBody UserCredentials userCredentials) {
-        DeferredResult<String> deferredResult = new DeferredResult<String>();
+    public @ResponseBody String login(@RequestBody UserCredentials userCredentials
+            , HttpServletResponse response) {
         UUID result = identityService.login(userCredentials);
-
         if (null == result) {
             throw new BadCredentialsException("Invalid Credentials");
         }
+        response.addHeader(X_AUTH_TOKEN, result.toString());
         return result.toString();
-
     }
 
     @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
