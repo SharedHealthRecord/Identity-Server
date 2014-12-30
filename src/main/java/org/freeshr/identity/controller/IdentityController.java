@@ -41,5 +41,4 @@ public class IdentityController {
         }
         return userInfo;
     }
-
 }

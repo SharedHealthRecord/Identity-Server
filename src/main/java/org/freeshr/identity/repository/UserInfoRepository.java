@@ -21,8 +21,8 @@ public class UserInfoRepository extends PropertyReader {
 
     private HashSet<String> getRoles() {
         HashSet<String> strings = new HashSet<>();
-        strings.add("mci.admin");
-        strings.add("shr.user");
+        strings.add("ROLE_MCI_ADMIN");
+        strings.add("ROLE_SHR_USER");
         return strings;
     }
 
