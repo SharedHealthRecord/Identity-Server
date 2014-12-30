@@ -13,8 +13,8 @@ public class UserInfoRepositoryTest {
         UserInfo userInfo = new UserInfoRepository().getUserInfo("shr1");
         assertEquals("shr1", userInfo.getName());
         assertEquals("603602", userInfo.getLocationCode());
-        assertTrue(userInfo.getRoles().contains("mci.admin"));
-        assertTrue(userInfo.getRoles().contains("shr.user"));
+        assertTrue(userInfo.getRoles().contains("ROLE_MCI_ADMIN"));
+        assertTrue(userInfo.getRoles().contains("ROLE_SHR_USER"));
         assertFalse(userInfo.getRoles().contains("shr.admin"));
     }
 }
