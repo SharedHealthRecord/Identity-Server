@@ -2,9 +2,11 @@ package org.freeshr.identity.launch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-@Import({ApplicationConfiguration.class})
+@Configuration
+@ComponentScan({"org.freeshr.identity"})
 @EnableAutoConfiguration
 public class Application {
 

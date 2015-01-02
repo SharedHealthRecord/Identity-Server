@@ -33,6 +33,14 @@ public class UserCredentials {
     }
 
     @Override
+    public String toString() {
+        return "UserCredentials{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -43,12 +51,5 @@ public class UserCredentials {
         if (!password.equals(that.password)) return false;
 
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
     }
 }

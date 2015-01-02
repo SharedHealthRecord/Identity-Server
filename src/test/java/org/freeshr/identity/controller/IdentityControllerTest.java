@@ -2,7 +2,7 @@ package org.freeshr.identity.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.freeshr.identity.launch.ApplicationConfiguration;
+import org.freeshr.identity.launch.Application;
 import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
 import org.freeshr.identity.service.IdentityService;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {ApplicationConfiguration.class})
+@ContextConfiguration(classes = {Application.class})
 public class IdentityControllerTest {
 
     private MockMvc mockMvc;
