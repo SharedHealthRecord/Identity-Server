@@ -22,9 +22,13 @@ public class LoginRepository extends PropertyReader {
     }
 
     public UUID login(UserCredentials userCredentials) {
+        return matchUserNameAndPassword(userCredentials) ? getOrCreateSession(userCredentials) : null;
+    }
+
+    private UUID getOrCreateSession(UserCredentials userCredentials) {
         UUID sessionId = findSessionId(userCredentials);
         if(null != sessionId) return sessionId;
-        return matchUserNameAndPassword(userCredentials) ? createSession(userCredentials) : null;
+        return createSession(userCredentials);
     }
 
     private UUID findSessionId(UserCredentials userCredentials) {
