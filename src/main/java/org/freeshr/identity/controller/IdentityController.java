@@ -20,6 +20,7 @@ import java.util.UUID;
 @Controller
 public class IdentityController extends WebMvcConfigurerAdapter {
 
+    public static final String SHR_IDENTITY_TOKEN = "SHR_IDENTITY_TOKEN";
     public static String X_AUTH_TOKEN = "X-Auth-Token";
     private IdentityService identityService;
 
@@ -79,7 +80,7 @@ public class IdentityController extends WebMvcConfigurerAdapter {
                 throw new BadCredentialsException("Invalid Credentials");
             }
             response.addHeader(X_AUTH_TOKEN, result.toString());
-            Cookie authCookie = new Cookie("token", result.toString());
+            Cookie authCookie = new Cookie(SHR_IDENTITY_TOKEN, result.toString());
             response.addCookie(authCookie);
 
             String callBackUrl = request.getParameter("redirectTo");
