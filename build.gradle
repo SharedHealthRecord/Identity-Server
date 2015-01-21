@@ -23,6 +23,14 @@ apply plugin: 'cobertura'
 apply plugin: 'rpm'
 apply plugin: 'war'
 
+
+idea{
+    project{
+        jdkName = '1.7'
+        languageLevel = '1.7'
+    }
+}
+
 jar {
     baseName = 'identity-service'
     version =  '0.1.0'
