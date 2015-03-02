@@ -2,7 +2,7 @@ package org.freeshr.identity.service;
 
 import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
-import org.freeshr.identity.repository.LoginRepository;
+import org.freeshr.identity.repository.IdentityRepository;
 import org.freeshr.identity.repository.UserInfoRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +12,13 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class IdentityServiceTest {
 
     @Mock
-    LoginRepository loginRepository;
+    IdentityRepository identityRepository;
 
     @Mock
     UserInfoRepository userInfoRepository;
@@ -30,25 +29,25 @@ public class IdentityServiceTest {
     }
 
     @Test
-    public void shouldVerifyUserCredentials(){
+    public void shouldVerifyUserCredentials() {
         UserCredentials userCredentials = new UserCredentials("champak", "bhumia");
         UUID uuid = UUID.randomUUID();
-        when(loginRepository.login(userCredentials)).thenReturn(uuid);
-        IdentityService identityService = new IdentityService(loginRepository, userInfoRepository);
+        when(identityRepository.login(userCredentials)).thenReturn(uuid);
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
         assertEquals(uuid, identityService.login(userCredentials));
-        verify(loginRepository).login(userCredentials);
+        verify(identityRepository).login(userCredentials);
     }
 
     @Test
     public void shouldGetUserInfoForValidToken() throws Exception {
         UserCredentials userCredentials = new UserCredentials("mogambo", "khushua");
-        UserInfo userInfo = new UserInfo("mogambo", null, "123" );
+        UserInfo userInfo = new UserInfo("mogambo", null, "123");
         UUID uuid = UUID.randomUUID();
-        when(loginRepository.login(userCredentials)).thenReturn(uuid);
-        when(loginRepository.getUserByToken(uuid)).thenReturn(userCredentials);
+        when(identityRepository.login(userCredentials)).thenReturn(uuid);
+        when(identityRepository.getUserByToken(uuid)).thenReturn(userCredentials);
         when(userInfoRepository.getUserInfo("mogambo")).thenReturn(userInfo);
 
-        IdentityService identityService = new IdentityService(loginRepository, userInfoRepository);
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
         assertEquals(identityService.userInfo(uuid), userInfo);
 
     }
@@ -56,14 +55,20 @@ public class IdentityServiceTest {
     @Test
     public void shouldRespondNullForInvalidToken() throws Exception {
         UserCredentials userCredentials = new UserCredentials("mogambo", "khushua");
-        UserInfo userInfo = new UserInfo("mogambo", null, "123" );
+        UserInfo userInfo = new UserInfo("mogambo", null, "123");
         UUID uuid = UUID.randomUUID();
-        when(loginRepository.login(userCredentials)).thenReturn(uuid);
-        when(loginRepository.getUserByToken(uuid)).thenReturn(userCredentials);
+        when(identityRepository.login(userCredentials)).thenReturn(uuid);
+        when(identityRepository.getUserByToken(uuid)).thenReturn(userCredentials);
         when(userInfoRepository.getUserInfo("mogambo")).thenReturn(userInfo);
 
-        IdentityService identityService = new IdentityService(loginRepository, userInfoRepository);
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
         assertNull(identityService.userInfo(UUID.randomUUID()));
+    }
 
+    @Test
+    public void shouldCallLoginRepositorySiginin() throws Exception {
+        UserCredentials userCredentials = new UserCredentials("12345", "xyz", "mogambo", "khushua");
+        new IdentityService(identityRepository, userInfoRepository).signin(userCredentials);
+        verify(identityRepository, times(1)).signin(userCredentials);
     }
 }

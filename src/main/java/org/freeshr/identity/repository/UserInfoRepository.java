@@ -13,9 +13,9 @@ public class UserInfoRepository extends PropertyReader {
     Map<String, UserInfo> users = new HashMap<>();
 
     public UserInfoRepository() {
-        Properties properties = loadProperties();
+        Properties properties = loadProperties("userDetail.properties");
         for (String user : properties.stringPropertyNames()) {
-           users.put(user, new UserInfo(user, getRoles(), "603602" ));
+            users.put(user, new UserInfo(user, getRoles(), "603602"));
         }
     }
 
