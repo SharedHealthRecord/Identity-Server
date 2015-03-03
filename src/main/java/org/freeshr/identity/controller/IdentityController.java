@@ -43,6 +43,7 @@ public class IdentityController extends WebMvcConfigurerAdapter {
         this.identityService = identityService;
     }
 
+    @Deprecated
     @RequestMapping(value = "/login", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,6 +64,7 @@ public class IdentityController extends WebMvcConfigurerAdapter {
         return addTokenToResponse(userCredentials, response, request);
     }
 
+    @Deprecated
     @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
@@ -98,6 +100,19 @@ public class IdentityController extends WebMvcConfigurerAdapter {
         return addAccessTokenToResponse(userCredentials, response, request);
     }
 
+    @RequestMapping(value = "/token/{token}", method = RequestMethod.GET, produces = "application/json")
+    public
+    @ResponseBody
+    UserInfo userDetails(@PathVariable String token, HttpServletRequest request) {
+        UserCredentials userCredentials = new UserCredentials(request.getHeader("client_id"),
+                request.getHeader("X-Auth-Token"), null, null);
+        UserInfo userInfo = identityService.userDetail(userCredentials, token);
+        if (null == userInfo) {
+            throw new InvalidTokenException("Invalid token");
+        }
+        return userInfo;
+    }
+
     private String addTokenToResponse(UserCredentials userCredentials, HttpServletResponse response, HttpServletRequest request) {
         try {
             UUID result = identityService.login(userCredentials);
@@ -120,13 +135,13 @@ public class IdentityController extends WebMvcConfigurerAdapter {
 
     private Map<String, String> addAccessTokenToResponse(UserCredentials userCredentials, HttpServletResponse response, HttpServletRequest request) {
         try {
-            UUID result = identityService.signin(userCredentials);
+            String result = identityService.signin(userCredentials);
             if (null == result) {
                 throw new BadCredentialsException("Invalid Credentials");
             }
             Map<String, String> responseMap = new HashMap<>();
-            responseMap.put(ACCESS_TOKEN, result.toString());
-            Cookie authCookie = new Cookie(SHR_IDENTITY_TOKEN, result.toString());
+            responseMap.put(ACCESS_TOKEN, result);
+            Cookie authCookie = new Cookie(SHR_IDENTITY_TOKEN, result);
             response.addCookie(authCookie);
 
             String callBackUrl = request.getParameter("redirectTo");

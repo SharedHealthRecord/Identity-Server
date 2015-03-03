@@ -20,17 +20,26 @@ public class IdentityService {
         this.userInfoRepository = userInfoRepository;
     }
 
+    @Deprecated
     public java.util.UUID login(UserCredentials userCredentials) {
         return identityRepository.login(userCredentials);
     }
 
-    public java.util.UUID signin(UserCredentials userCredentials) {
+    public String signin(UserCredentials userCredentials) {
         return identityRepository.signin(userCredentials);
     }
 
+    @Deprecated
     public UserInfo userInfo(UUID token) {
-        UserCredentials userCredentials = identityRepository.getUserByToken(token);
+        UserCredentials userCredentials = identityRepository.getUserByToken(token.toString());
         return userCredentials == null ? null : userInfoRepository.getUserInfo(userCredentials.getEmail());
     }
 
+    public UserInfo userDetail(UserCredentials credentials, String token) {
+        if(identityRepository.checkClientIdAndAuthToken(credentials)) {
+            UserCredentials userCredentialsOfToken = identityRepository.getUserByToken(token);
+            return userCredentialsOfToken == null ? null : identityRepository.getUserInfo(userCredentialsOfToken.getEmail());
+        }
+        return null;
+    }
 }

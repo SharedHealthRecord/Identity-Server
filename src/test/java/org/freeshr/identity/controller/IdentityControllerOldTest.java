@@ -86,7 +86,7 @@ public class IdentityControllerOldTest {
 
     @Test
     public void shouldGetUserInfoGivenToken() throws Exception {
-        UserInfo userInfo = new UserInfo(user, getRoles(), "123");
+        UserInfo userInfo = new UserInfo(user, "123", getRoles());
         UUID token = UUID.randomUUID();
         Mockito.when(service.userInfo(token)).thenReturn(userInfo);
         mockMvc.perform(MockMvcRequestBuilders.get("/userInfo/" + token).

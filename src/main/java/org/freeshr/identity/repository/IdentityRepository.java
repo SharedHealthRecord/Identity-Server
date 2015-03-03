@@ -1,6 +1,7 @@
 package org.freeshr.identity.repository;
 
 import org.freeshr.identity.model.UserCredentials;
+import org.freeshr.identity.model.UserInfo;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public class IdentityRepository extends PropertyReader {
     Map<String, String> users = new HashMap<>();
     Map<String, String> clients = new HashMap<>();
-    Map<UUID, UserCredentials> sessions = new HashMap<>();
-    Map<String, UUID> userTokens = new HashMap<>();
+    Map<String, UserCredentials> sessions = new HashMap<>();
+    Map<String, UserInfo> userTokens = new HashMap<>();
 
     public IdentityRepository() {
         Properties properties = loadProperties("userDetail.properties");
@@ -26,42 +27,48 @@ public class IdentityRepository extends PropertyReader {
         }
     }
 
+    @Deprecated
     public UUID login(UserCredentials userCredentials) {
-        return matchUserNameAndPassword(userCredentials) ? getOrCreateSession(userCredentials) : null;
+        return checkUserNameAndPassword(userCredentials) ? UUID.fromString(getOrCreateSession(userCredentials)) : null;
     }
 
-    public UUID signin(UserCredentials userCredentials) {
-        return matchUserNameAndPassword(userCredentials) && matchClientIdAndAuthToken(userCredentials) ? getOrCreateSession(userCredentials) : null;
+    public String signin(UserCredentials userCredentials) {
+        return checkUserNameAndPassword(userCredentials) && checkClientIdAndAuthToken(userCredentials) ? getOrCreateSession(userCredentials) : null;
     }
 
-    private boolean matchClientIdAndAuthToken(UserCredentials userCredentials) {
+    public boolean checkClientIdAndAuthToken(UserCredentials userCredentials) {
         String clientId = userCredentials.getClientId();
         return clients.containsKey(clientId) && clients.get(clientId).equals(userCredentials.getAuthToken());
     }
 
-    private UUID getOrCreateSession(UserCredentials userCredentials) {
-        UUID sessionId = findSessionId(userCredentials);
+    private String getOrCreateSession(UserCredentials userCredentials) {
+        String sessionId = findSessionId(userCredentials);
         if (null != sessionId) return sessionId;
         return createSession(userCredentials);
     }
 
-    private UUID findSessionId(UserCredentials userCredentials) {
-        return userTokens.get(userCredentials.getEmail());
+    private String findSessionId(UserCredentials userCredentials) {
+        UserInfo userInfo = userTokens.get(userCredentials.getEmail());
+        return userInfo != null ? userInfo.getAccessToken() : null;
     }
 
-    private boolean matchUserNameAndPassword(UserCredentials userCredentials) {
+    private boolean checkUserNameAndPassword(UserCredentials userCredentials) {
         String name = userCredentials.getEmail();
         return users.containsKey(name) && users.get(name).equals(userCredentials.getPassword());
     }
 
-    private UUID createSession(UserCredentials userCredentials) {
-        UUID uuid = UUID.randomUUID();
+    private String createSession(UserCredentials userCredentials) {
+        String uuid = UUID.randomUUID().toString();
         sessions.put(uuid, userCredentials);
-        userTokens.put(userCredentials.getEmail(), uuid);
+        userTokens.put(userCredentials.getEmail(), new UserInfo(userCredentials.getClientId(), "Anonymous", userCredentials.getEmail(), uuid));
         return uuid;
     }
 
-    public UserCredentials getUserByToken(UUID token) {
+    public UserCredentials getUserByToken(String token) {
         return sessions.get(token);
+    }
+
+    public UserInfo getUserInfo(String email) {
+        return userTokens.get(email);
     }
 }

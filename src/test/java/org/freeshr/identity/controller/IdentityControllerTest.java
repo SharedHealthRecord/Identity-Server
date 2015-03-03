@@ -2,7 +2,10 @@ package org.freeshr.identity.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeshr.identity.model.UserCredentials;
+import org.freeshr.identity.model.UserInfo;
 import org.freeshr.identity.service.IdentityService;
+import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,6 +21,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,7 +47,7 @@ public class IdentityControllerTest {
         String authToken = "xyz";
 
         UUID uuid = UUID.randomUUID();
-        when(service.signin(any(UserCredentials.class))).thenReturn(uuid);
+        when(service.signin(any(UserCredentials.class))).thenReturn(uuid.toString());
         UserCredentials userCredentials = new UserCredentials(email, password);
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/signin");
@@ -63,4 +67,27 @@ public class IdentityControllerTest {
         Mockito.verify(service).signin(userCredentials);
     }
 
+    @Test
+    public void shouldGetUserDetailsForGivenAccessToken() throws Exception {
+        String name = "shr1";
+        String email = "email@gmail.com";
+        String id = "123";
+        String token = "xyz";
+        UserInfo userInfo = new UserInfo(id, name, email, token);
+
+        when(service.userDetail(any(UserCredentials.class), eq(token))).thenReturn(userInfo);
+        mockMvc.perform(MockMvcRequestBuilders.get("/token/" + token)
+                .header("client_id", "12345")
+                .header("X-Auth-Token", "xyz"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(id)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.is(name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Facility Admin")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("MIS Admin")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Report viewer")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("API Consumer")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Is.is(email)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.access_token", Is.is(token)));
+    }
 }

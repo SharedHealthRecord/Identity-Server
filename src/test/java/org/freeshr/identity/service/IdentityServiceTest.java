@@ -41,10 +41,10 @@ public class IdentityServiceTest {
     @Test
     public void shouldGetUserInfoForValidToken() throws Exception {
         UserCredentials userCredentials = new UserCredentials("mogambo", "khushua");
-        UserInfo userInfo = new UserInfo("mogambo", null, "123");
+        UserInfo userInfo = new UserInfo("mogambo", "123", null);
         UUID uuid = UUID.randomUUID();
         when(identityRepository.login(userCredentials)).thenReturn(uuid);
-        when(identityRepository.getUserByToken(uuid)).thenReturn(userCredentials);
+        when(identityRepository.getUserByToken(uuid.toString())).thenReturn(userCredentials);
         when(userInfoRepository.getUserInfo("mogambo")).thenReturn(userInfo);
 
         IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
@@ -55,10 +55,10 @@ public class IdentityServiceTest {
     @Test
     public void shouldRespondNullForInvalidToken() throws Exception {
         UserCredentials userCredentials = new UserCredentials("mogambo", "khushua");
-        UserInfo userInfo = new UserInfo("mogambo", null, "123");
+        UserInfo userInfo = new UserInfo("mogambo", "123", null);
         UUID uuid = UUID.randomUUID();
         when(identityRepository.login(userCredentials)).thenReturn(uuid);
-        when(identityRepository.getUserByToken(uuid)).thenReturn(userCredentials);
+        when(identityRepository.getUserByToken(uuid.toString())).thenReturn(userCredentials);
         when(userInfoRepository.getUserInfo("mogambo")).thenReturn(userInfo);
 
         IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
@@ -70,5 +70,45 @@ public class IdentityServiceTest {
         UserCredentials userCredentials = new UserCredentials("12345", "xyz", "mogambo", "khushua");
         new IdentityService(identityRepository, userInfoRepository).signin(userCredentials);
         verify(identityRepository, times(1)).signin(userCredentials);
+    }
+
+    @Test
+    public void shouldAskIdentifyRepositoryForDetailsWhenValidToken() throws Exception {
+        String email = "mogambo@gmail.com";
+        UserCredentials requesterUserCredentials = new UserCredentials("123456", "xyzabc", null, null);
+        UserCredentials userCredentials = new UserCredentials("12345", "xyz", email, "khushua");
+        UUID uuid = UUID.randomUUID();
+        when(identityRepository.getUserByToken(uuid.toString())).thenReturn(userCredentials);
+        when(identityRepository.checkClientIdAndAuthToken(requesterUserCredentials)).thenReturn(true);
+
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
+        identityService.userDetail(requesterUserCredentials, uuid.toString());
+        verify(identityRepository, times(1)).checkClientIdAndAuthToken(requesterUserCredentials);
+        verify(identityRepository, times(1)).getUserByToken(uuid.toString());
+        verify(identityRepository, times(1)).getUserInfo(userCredentials.getEmail());
+    }
+
+    @Test
+    public void shouldNotFetchUserDetailWhenRequesterCredentialsIsNotValid() throws Exception {
+        UserCredentials requesterUserCredentials = new UserCredentials("123456", "xyz", null, null);
+        when(identityRepository.checkClientIdAndAuthToken(requesterUserCredentials)).thenReturn(false);
+
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
+        identityService.userDetail(requesterUserCredentials, UUID.randomUUID().toString());
+        verify(identityRepository, times(0)).getUserInfo(anyString());
+    }
+
+    @Test
+    public void shouldNotFetchUserDetailWhenTokenIsNotValid() throws Exception {
+        String email = "mogambo@gmail.com";
+        UserCredentials requesterUserCredentials = new UserCredentials("123456", "xyzabc", null, null);
+        UserCredentials userCredentials = new UserCredentials("12345", "xyz", email, "khushua");
+        UUID uuid = UUID.randomUUID();
+        when(identityRepository.getUserByToken(uuid.toString())).thenReturn(null);
+        when(identityRepository.checkClientIdAndAuthToken(requesterUserCredentials)).thenReturn(true);
+
+        IdentityService identityService = new IdentityService(identityRepository, userInfoRepository);
+        identityService.userDetail(requesterUserCredentials, uuid.toString());
+        verify(identityRepository, times(0)).getUserInfo(userCredentials.getEmail());
     }
 }
