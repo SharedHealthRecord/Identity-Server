@@ -85,7 +85,6 @@ public class IdentityController extends WebMvcConfigurerAdapter {
     //enhanced Identity Server
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
