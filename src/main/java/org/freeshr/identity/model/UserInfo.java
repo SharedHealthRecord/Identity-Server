@@ -4,8 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 public class UserInfo {
     //TODO : remove user, locationCode and roles, not used in the new HRM IdP
@@ -49,7 +54,7 @@ public class UserInfo {
     @JsonProperty("groups")
     private HashSet<String> groups;
     @JsonProperty("profiles")
-    private HashSet<Object> profiles;
+    private ArrayList<Map> profiles;
 
     public UserInfo() {
     }
@@ -73,7 +78,7 @@ public class UserInfo {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.deletedAt = new Date();
-        this.profiles = null;
+        this.profiles = getProfiles();
     }
 
     @Deprecated
@@ -105,7 +110,26 @@ public class UserInfo {
         strings.add("MIS Admin");
         strings.add("Report viewer");
         strings.add("API Consumer");
+        strings.add("MCI Admin");
+        strings.add("MCI Approver");
         return strings;
+    }
+
+    private ArrayList<Map> getProfiles() {
+        ArrayList<Map> profiles = new ArrayList<>();
+        HashMap<String, Object> profile = new HashMap<>();
+        profile.put("name", "facility");
+        profile.put("id", "10000069");
+        profile.put("catchment", asList("3026"));
+        profiles.add(profile);
+
+        HashMap<String, Object> profile1 = new HashMap<>();
+        profile1.put("name", "admin");
+        profile1.put("id", getId());
+        profile1.put("catchment", asList("3026"));
+        profiles.add(profile1);
+
+        return profiles;
     }
 
     public String getAccessToken() {
