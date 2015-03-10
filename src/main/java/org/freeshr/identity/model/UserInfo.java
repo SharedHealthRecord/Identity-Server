@@ -24,36 +24,49 @@ public class UserInfo {
     @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String locationCode;
 
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonProperty("id")
     private String id;
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonProperty("name")
     private String name;
     @JsonProperty("email")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String email;
     @JsonProperty("is_active")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_DEFAULT)
     private int isActive;
     @JsonProperty("activated")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_DEFAULT)
     private boolean activated;
     @JsonProperty("activated_at")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date activatedAt;
     @JsonProperty("last_login")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date lastLogin;
     @JsonProperty("access_token")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private String accessToken;
     @JsonProperty("created_at")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt;
     @JsonProperty("updated_at")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date updatedAt;
     @JsonProperty("deleted_at")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date deletedAt;
     @JsonProperty("groups")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private HashSet<String> groups;
     @JsonProperty("profiles")
+    @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
     private ArrayList<Map> profiles;
 
     public UserInfo() {
