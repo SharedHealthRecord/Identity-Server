@@ -125,6 +125,7 @@ public class UserInfo {
         strings.add("API Consumer");
         strings.add("MCI Admin");
         strings.add("MCI Approver");
+        strings.add("SHR USER");
         return strings;
     }
 
