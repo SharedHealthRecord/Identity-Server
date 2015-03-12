@@ -6,9 +6,7 @@ import org.freeshr.identity.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,13 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 public class IdentityController extends WebMvcConfigurerAdapter {
 
     public static final String SHR_IDENTITY_TOKEN = "SHR_IDENTITY_TOKEN";
-    public static final String X_AUTH_TOKEN = "X-Auth-Token";
     public static final String ACCESS_TOKEN = "access_token";
     private IdentityService identityService;
 
@@ -44,38 +40,6 @@ public class IdentityController extends WebMvcConfigurerAdapter {
     }
 
     @Deprecated
-    @RequestMapping(value = "/login", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public
-    @ResponseBody
-    String login(@RequestBody UserCredentials userCredentials
-            , HttpServletResponse response, HttpServletRequest request) {
-        return addTokenToResponse(userCredentials, response, request);
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST,
-            headers = "content-type=application/x-www-form-urlencoded",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public
-    @ResponseBody
-    String loginFromForm(@ModelAttribute UserCredentials userCredentials,
-                         HttpServletRequest request, HttpServletResponse response) {
-        return addTokenToResponse(userCredentials, response, request);
-    }
-
-    @Deprecated
-    @RequestMapping(value = "/userInfo/{token}", method = RequestMethod.GET, produces = "application/json")
-    public
-    @ResponseBody
-    UserInfo userInfo(@PathVariable UUID token) {
-        UserInfo userInfo = identityService.userInfo(token);
-        if (null == userInfo) {
-            throw new InvalidTokenException("Invalid token");
-        }
-        return userInfo;
-    }
-
     @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
     public ModelAndView loginForm(UserCredentials userCredentials, HttpServletRequest request) throws Exception {
         ModelAndView view = new ModelAndView("form");
@@ -111,26 +75,6 @@ public class IdentityController extends WebMvcConfigurerAdapter {
             throw new InvalidTokenException("Invalid token");
         }
         return userInfo;
-    }
-
-    private String addTokenToResponse(UserCredentials userCredentials, HttpServletResponse response, HttpServletRequest request) {
-        try {
-            UUID result = identityService.login(userCredentials);
-            if (null == result) {
-                throw new BadCredentialsException("Invalid Credentials");
-            }
-            response.addHeader(X_AUTH_TOKEN, result.toString());
-            Cookie authCookie = new Cookie(SHR_IDENTITY_TOKEN, result.toString());
-            response.addCookie(authCookie);
-
-            String callBackUrl = request.getParameter("redirectTo");
-            if (callBackUrl != null) {
-                response.sendRedirect(callBackUrl);
-            }
-            return result.toString();
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     private Map<String, String> addAccessTokenToResponse(UserCredentials userCredentials, HttpServletResponse response, HttpServletRequest request) {

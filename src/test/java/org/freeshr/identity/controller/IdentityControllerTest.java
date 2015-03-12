@@ -3,6 +3,7 @@ package org.freeshr.identity.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
+import org.freeshr.identity.model.UserProfile;
 import org.freeshr.identity.service.IdentityService;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsCollectionContaining;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static java.util.Arrays.asList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -73,7 +75,8 @@ public class IdentityControllerTest {
         String email = "email@gmail.com";
         String id = "123";
         String token = "xyz";
-        UserInfo userInfo = new UserInfo(id, name, email, token);
+        UserProfile profile = new UserProfile("facility", "10000069", asList("3026"));
+        UserInfo userInfo = new UserInfo(id, name, email, token, asList("Facility Admin", "SHR USER"), asList(profile));
 
         when(service.userDetail(any(UserCredentials.class), eq(token))).thenReturn(userInfo);
         mockMvc.perform(MockMvcRequestBuilders.get("/token/" + token)
@@ -84,9 +87,9 @@ public class IdentityControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(id)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.is(name)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Facility Admin")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("MIS Admin")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Report viewer")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("API Consumer")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].name", Is.is("facility")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].id", Is.is("10000069")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].catchment", IsCollectionContaining.hasItem("3026")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", Is.is(email)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.access_token", Is.is(token)));
     }
