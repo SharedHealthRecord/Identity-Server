@@ -77,4 +77,36 @@ public class UserInfo {
     public List<UserProfile> getProfiles() {
         return profiles;
     }
+
+    public int getIsActive() {
+        return 1;
+    }
+
+    public boolean isActivated() {
+        return true;
+    }
+
+    public Date getActivatedAt() {
+        return new Date();
+    }
+
+    public Date getLastLogin() {
+        return new Date();
+    }
+
+    public Date getCreatedAt() {
+        return new Date();
+    }
+
+    public Date getUpdatedAt() {
+        return new Date();
+    }
+
+    public Date getDeletedAt() {
+        return new Date();
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }

@@ -1,33 +1,26 @@
 package org.freeshr.identity.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
-import org.freeshr.identity.model.UserProfile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import static java.util.Arrays.asList;
-
 @Component
 public class IdentityRepository extends PropertyReader {
     Map<String, String> userPasswords = new HashMap<>();
-    Map<String, List<String>> userGroups = new HashMap<>();
-    Map<String, String> clients = new HashMap<>();
     Map<String, UserCredentials> sessions = new HashMap<>();
     Map<String, UserInfo> userTokens = new HashMap<>();
-    private Map<String, List<UserProfile>> userProfiles = new HashMap<>();
+    Map<String, String> clients = new HashMap<>();
+    private Map<String, String> users = new HashMap<>();
 
     public IdentityRepository() throws IOException {
         loadUserPasswords();
-        loadUserGroups();
         loadClients();
         loadUserProfiles();
     }
@@ -40,19 +33,11 @@ public class IdentityRepository extends PropertyReader {
         }
     }
 
-    private void loadUserGroups() {
-        Properties properties;
-        properties = loadProperties("userGroups.properties");
-        for (String user : properties.stringPropertyNames()) {
-            userGroups.put(user, asList(StringUtils.split(properties.getProperty(user), ",")));
-        }
-    }
-
     private void loadUserProfiles() throws IOException {
         Properties properties;
-        properties = loadProperties("userProfile.properties");
+        properties = loadProperties("userDetail.properties");
         for (String user : properties.stringPropertyNames()) {
-            userProfiles.put(user, asList(new ObjectMapper().readValue(properties.getProperty(user), UserProfile[].class)));
+            users.put(user, properties.getProperty(user));
         }
     }
 
@@ -63,7 +48,7 @@ public class IdentityRepository extends PropertyReader {
         }
     }
 
-    public String signin(UserCredentials userCredentials) {
+    public String signin(UserCredentials userCredentials) throws IOException {
         return checkUserNameAndPassword(userCredentials) && checkClientIdAndAuthToken(userCredentials) ? getOrCreateSession(userCredentials) : null;
     }
 
@@ -72,7 +57,7 @@ public class IdentityRepository extends PropertyReader {
         return clients.containsKey(clientId) && clients.get(clientId).equals(userCredentials.getAuthToken());
     }
 
-    private String getOrCreateSession(UserCredentials userCredentials) {
+    private String getOrCreateSession(UserCredentials userCredentials) throws IOException {
         String sessionId = findSessionId(userCredentials);
         if (null != sessionId) return sessionId;
         return createSession(userCredentials);
@@ -88,14 +73,13 @@ public class IdentityRepository extends PropertyReader {
         return userPasswords.containsKey(name) && userPasswords.get(name).equals(userCredentials.getPassword());
     }
 
-    private String createSession(UserCredentials userCredentials) {
+    private String createSession(UserCredentials userCredentials) throws IOException {
         String uuid = UUID.randomUUID().toString();
         sessions.put(uuid, userCredentials);
         String email = userCredentials.getEmail();
-        userTokens.put(email,
-                new UserInfo(userCredentials.getClientId(), "Anonymous", email, uuid,
-                        userGroups.get(email),
-                        userProfiles.get(email)));
+        UserInfo userInfo = new ObjectMapper().readValue(users.get(email), UserInfo.class);
+        userInfo.setAccessToken(uuid);
+        userTokens.put(email, userInfo);
         return uuid;
     }
 

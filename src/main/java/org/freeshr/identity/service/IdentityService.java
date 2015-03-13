@@ -6,6 +6,8 @@ import org.freeshr.identity.repository.IdentityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class IdentityService {
     private IdentityRepository identityRepository;
@@ -15,7 +17,7 @@ public class IdentityService {
         this.identityRepository = identityRepository;
     }
 
-    public String signin(UserCredentials userCredentials) {
+    public String signin(UserCredentials userCredentials) throws IOException {
         return identityRepository.signin(userCredentials);
     }
 
