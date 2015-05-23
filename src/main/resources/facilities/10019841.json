@@ -1,0 +1,43 @@
+{
+    "name": "Bahmni1",
+    "url": "",
+    "id": "10019841",
+    "active": 1,
+    "createdAt": "",
+    "updatedAt": "2015-02-26 08:42:12",
+    "coordinates": [
+        "",
+        ""
+    ],
+    "identifiers": {
+        "agency": "DGHS",
+        "context": "HRM",
+        "id": 19429
+    },
+    "properties": {
+        "ownership": "",
+        "org_type": "Upazila Health Complex",
+        "org_level": "Upazila",
+        "care_level": "",
+        "deleted_at": null,
+        "services": [],
+        "locations": {
+            "division_code": "30",
+            "district_code": "26",
+            "upazila_code": "07",
+            "paurasava_code": "",
+            "union_code": "",
+            "ward_code": ""
+        },
+        "contacts": {
+            "name": "",
+            "email": "dmishra@thoughtworks.com",
+            "phone": "",
+            "mobile": "",
+            "fax": ""
+        },
+        "catchment": [
+            "302607"
+        ]
+    }
+}

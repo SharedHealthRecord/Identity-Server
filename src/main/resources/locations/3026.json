@@ -1,0 +1,20 @@
+{
+    "code": "3026",
+    "id": "3026",
+    "name": "Dhaka",
+    "type": "district",
+    "active": 1,
+    "updatedAt": "2014-11-27 00:00:00",
+    "hierarchy": [
+        {
+            "code": "30",
+            "name": "Dhaka",
+            "type": "division"
+        },
+        {
+            "code": "26",
+            "name": "Dhaka",
+            "type": "district"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+        "name": "Dr.Mst.Soheli Sultana",
+        "url": "http://provider.example.org/api/1.0/providers/24.json",
+        "id": 24,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-12-17 04:41:43",
+        "birthDate": "1978-10-30",
+        "gender": "Female",
+        "organization": {
+            "reference": "http://facility.example.org/api/1.0/facilities/10001895.json",
+            "display": "Meherpur (sadar) Upazila Health Office"
+        },
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 24
+            },
+            {
+                "system": "NationalId",
+                "value": "6125217227364"
+            },
+            {
+                "system": "PDS",
+                "value": "1018588"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01711033755"
+            },
+            {
+                "system": "email",
+                "value": "meherpursadar@uhfpo.dghs.gov.bd"
+            }
+        ],
+        "address": {
+            "text": "Upazila Health & F.P.Office,Sadar,Meherpur."
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "Bachelor-MBBS",
+            "category": "Physican",
+            "discipline": "N/A",
+            "department": null
+        }
+    }

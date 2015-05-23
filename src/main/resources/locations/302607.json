@@ -1,0 +1,25 @@
+{
+    "code": "302607",
+    "id": "302607",
+    "name": "Banani",
+    "type": "upazila",
+    "active": 1,
+    "updatedAt": "2015-03-04 15:26:06",
+    "hierarchy": [
+        {
+            "code": "30",
+            "name": "Dhaka",
+            "type": "division"
+        },
+        {
+            "code": "26",
+            "name": "Dhaka",
+            "type": "district"
+        },
+        {
+            "code": "07",
+            "name": "Banani",
+            "type": "upazila"
+        }
+    ]
+}

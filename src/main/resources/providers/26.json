@@ -1,0 +1,49 @@
+{
+        "name": "Dr. Md. Abul Mansur",
+        "url": "http://provider.example.org/api/1.0/providers/26.json",
+        "id": 26,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-06-08 00:52:07",
+        "birthDate": "1957-10-22",
+        "gender": "Male",
+        "organization": {
+            "reference": "http://facility.example.org/api/1.0/facilities/10000802.json",
+            "display": "Patiya Upazila Health Complex"
+        },
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 26
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "37612"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01712176277"
+            },
+            {
+                "system": "email",
+                "value": ""
+            }
+        ],
+        "address": {
+            "text": "54 Amirbag, Mehbibag, Ctg"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "MBBS, DCH",
+            "category": "Physican",
+            "discipline": "Pediatrics",
+            "department": null
+        }
+    }

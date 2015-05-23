@@ -1,0 +1,30 @@
+{
+    "code": "30260220",
+    "id": "30260220",
+    "name": "Dhaka Dakshin City Corp.",
+    "type": "paurasava",
+    "active": 1,
+    "updatedAt": "2014-11-27 00:00:00",
+    "hierarchy": [
+        {
+            "code": "30",
+            "name": "Dhaka",
+            "type": "division"
+        },
+        {
+            "code": "26",
+            "name": "Dhaka",
+            "type": "district"
+        },
+        {
+            "code": "02",
+            "name": "Adabor",
+            "type": "upazila"
+        },
+        {
+            "code": "20",
+            "name": "Dhaka Dakshin City Corp.",
+            "type": "paurasava"
+        }
+    ]
+}

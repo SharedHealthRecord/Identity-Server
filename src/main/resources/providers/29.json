@@ -1,0 +1,49 @@
+{
+    "name": "Dr. Joy Datta Barua",
+    "url": "http://provider.example.org/api/1.0/providers/29.json",
+    "id": 29,
+    "active": 1,
+    "createdAt": "2014-11-27 00:00:00",
+    "updatedAt": "2014-06-08 00:52:07",
+    "birthDate": "1980-07-25",
+    "gender": "Male",
+    "organization": {
+        "reference": "http://facility.example.org/api/1.0/facilities/10000809.json",
+        "display": "Potiya Union Sub Center"
+    },
+    "identifiers": [
+        {
+            "system": "DGHS",
+            "value": 29
+        },
+        {
+            "system": "NationalId",
+            "value": null
+        },
+        {
+            "system": "PDS",
+            "value": "122674"
+        }
+    ],
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "01920186255"
+        },
+        {
+            "system": "email",
+            "value": "vaastavbd@yahoo.com"
+        }
+    ],
+    "address": {
+        "text": "C/o- China Barua Clinic, Patiya, Ctg."
+    },
+    "properties": {
+        "postingOption": "Against Sanctioned Post ",
+        "maritalStatus": "Married",
+        "qualification": "MBBS, DCH",
+        "category": "Physican",
+        "discipline": "N/A",
+        "department": null
+    }
+}

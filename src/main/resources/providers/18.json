@@ -1,0 +1,46 @@
+{
+        "name": "Dr. MD. Mizanur Rahman",
+        "url": "http://provider.example.org/api/1.0/providers/18.json",
+        "id": 18,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1965-10-10",
+        "gender": "Male",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 18
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "40549"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01819128542"
+            },
+            {
+                "system": "email",
+                "value": "drmizanur65@yahoo.com"
+            }
+        ],
+        "address": {
+            "text": "Upazila Health Complex, Doctor Quater, Patiya, Chi"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "D.D.V",
+            "category": "Physican",
+            "discipline": "N/A",
+            "department": null
+        }
+    }

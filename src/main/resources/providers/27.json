@@ -1,0 +1,46 @@
+{
+        "name": "Dr. Mamunur Rahman",
+        "url": "http://provider.example.org/api/1.0/providers/27.json",
+        "id": 27,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1960-09-05",
+        "gender": "Male",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 27
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "1012418"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01819319073"
+            },
+            {
+                "system": "email",
+                "value": "mamun21cmc@yahoo.com"
+            }
+        ],
+        "address": {
+            "text": "House No. 31, Road No-5, Cosmopolitan R/A, Ctg"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "MBBS, MCPS, MPH, DA",
+            "category": "Physican",
+            "discipline": "Anesthesiology",
+            "department": null
+        }
+    }

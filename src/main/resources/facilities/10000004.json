@@ -1,0 +1,43 @@
+{
+    "name": "Institute Of Public Health (iph)",
+    "url": "",
+    "id": "10000004",
+    "active": 1,
+    "createdAt": "",
+    "updatedAt": "2014-11-27 00:00:00",
+    "coordinates": [
+        "0",
+        "0"
+    ],
+    "identifiers": {
+        "agency": "DGHS",
+        "context": "HRM",
+        "id": 4
+    },
+    "properties": {
+        "ownership": "Fully Government-owned",
+        "org_type": "Public Health Institution",
+        "org_level": "National",
+        "care_level": "",
+        "deleted_at": null,
+        "services": [],
+        "locations": {
+            "division_code": "30",
+            "district_code": "26",
+            "upazila_code": "01",
+            "paurasava_code": "",
+            "union_code": "",
+            "ward_code": ""
+        },
+        "contacts": {
+            "name": "",
+            "email": "iph@iedcr@example.org",
+            "phone": "",
+            "mobile": "",
+            "fax": null
+        },
+        "catchment": [
+            "302601"
+        ]
+    }
+}

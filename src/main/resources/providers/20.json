@@ -1,0 +1,49 @@
+{
+        "name": "Md. Rafiqul  Islam",
+        "url": "http://provider.example.org/api/1.0/providers/20.json",
+        "id": 20,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-06-08 00:52:07",
+        "birthDate": "1980-07-17",
+        "gender": "Male",
+        "organization": {
+            "reference": "http://facility.example.org/api/1.0/facilities/10001308.json",
+            "display": "Bhurungamari Upazila Health Complex"
+        },
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 20
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "0"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01725546715"
+            },
+            {
+                "system": "email",
+                "value": ""
+            }
+        ],
+        "address": {
+            "text": "Upazila Health Complex bhurungamari,Kurigram"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "",
+            "category": "",
+            "discipline": "N/A",
+            "department": null
+        }
+    }

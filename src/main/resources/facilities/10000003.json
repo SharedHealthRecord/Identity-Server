@@ -1,0 +1,43 @@
+{
+    "name": "Institute Of Epidemiology Disease Control & Research(iedc&r)",
+    "url": "",
+    "id": "10000003",
+    "active": 1,
+    "createdAt": "",
+    "updatedAt": "2014-12-24 03:19:29",
+    "coordinates": [
+        "0",
+        "0"
+    ],
+    "identifiers": {
+        "agency": "DGHS",
+        "context": "HRM",
+        "id": 3
+    },
+    "properties": {
+        "ownership": "Fully Government-owned",
+        "org_type": "Public Health Institution",
+        "org_level": "National",
+        "care_level": "",
+        "deleted_at": null,
+        "services": [],
+        "locations": {
+            "division_code": "30",
+            "district_code": "26",
+            "upazila_code": "07",
+            "paurasava_code": "",
+            "union_code": "",
+            "ward_code": ""
+        },
+        "contacts": {
+            "name": "",
+            "email": "iedcr@example.org",
+            "phone": "",
+            "mobile": "",
+            "fax": ""
+        },
+        "catchment": [
+            "302607"
+        ]
+    }
+}

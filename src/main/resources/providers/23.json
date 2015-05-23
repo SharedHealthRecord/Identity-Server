@@ -1,0 +1,49 @@
+{
+        "name": "Dr.Md.Mizanur Rahman",
+        "url": "http://provider.example.org/api/1.0/providers/23.json",
+        "id": 23,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-09-24 13:40:58",
+        "birthDate": "1960-01-01",
+        "gender": "Male",
+        "organization": {
+            "reference": "http://facility.example.org/api/1.0/facilities/10001895.json",
+            "display": "Meherpur (sadar) Upazila Health Office"
+        },
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 23
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "1002674"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01712586688"
+            },
+            {
+                "system": "email",
+                "value": "meherpursadar@uhfpo.dghs.gov.bd"
+            }
+        ],
+        "address": {
+            "text": "Upazila Health & F.P.Office.Sadar,Meherpur."
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "Bachelor-MBBS",
+            "category": "Physican",
+            "discipline": "N/A",
+            "department": null
+        }
+    }

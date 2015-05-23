@@ -1,0 +1,46 @@
+{
+        "name": "Dr. Zeenat ara chowdhury",
+        "url": "http://provider.example.org/api/1.0/providers/25.json",
+        "id": 25,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1956-12-16",
+        "gender": "Female",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 25
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "1008967"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01819312191"
+            },
+            {
+                "system": "email",
+                "value": "zeenatara_16@yahoo.com"
+            }
+        ],
+        "address": {
+            "text": "Fair Lawn, 40/A Panchlish R/A, Chittagong"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "MBBS, MCPS, MS (Gynae), DGO",
+            "category": "Physican",
+            "discipline": "Obstetrics & Gynecology",
+            "department": null
+        }
+    }

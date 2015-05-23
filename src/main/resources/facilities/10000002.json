@@ -1,0 +1,43 @@
+{
+    "name": "Directorate General of Health Services (DGHS)",
+    "url": "",
+    "id": "10000002",
+    "active": 1,
+    "createdAt": "",
+    "updatedAt": "2014-12-30 12:14:03",
+    "coordinates": [
+        "90.399004",
+        "23.780868"
+    ],
+    "identifiers": {
+        "agency": "DGHS",
+        "context": "HRM",
+        "id": 2
+    },
+    "properties": {
+        "ownership": "Fully Government-owned",
+        "org_type": "Directorate General or Directorate",
+        "org_level": "National",
+        "care_level": "",
+        "deleted_at": null,
+        "services": [],
+        "locations": {
+            "division_code": "30",
+            "district_code": "26",
+            "upazila_code": "07",
+            "paurasava_code": "",
+            "union_code": "",
+            "ward_code": ""
+        },
+        "contacts": {
+            "name": "",
+            "email": "dg@iedcr@example.org",
+            "phone": "9899516",
+            "mobile": "",
+            "fax": "9886415"
+        },
+        "catchment": [
+            "302607"
+        ]
+    }
+}

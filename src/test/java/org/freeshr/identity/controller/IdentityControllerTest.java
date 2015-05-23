@@ -76,7 +76,7 @@ public class IdentityControllerTest {
         String id = "123";
         String token = "xyz";
         UserProfile profile = new UserProfile("facility", "10000069", asList("3026"));
-        UserInfo userInfo = new UserInfo(id, name, email, token, asList("Facility Admin", "SHR USER"), asList(profile));
+        UserInfo userInfo = new UserInfo(id, name, email, token, asList("Resource Admin", "SHR USER"), asList(profile));
 
         when(service.userDetail(any(UserCredentials.class), eq(token))).thenReturn(userInfo);
         mockMvc.perform(MockMvcRequestBuilders.get("/token/" + token)
@@ -86,7 +86,7 @@ public class IdentityControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(id)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.is(name)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Facility Admin")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups", IsCollectionContaining.hasItem("Resource Admin")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].name", Is.is("facility")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].id", Is.is("10000069")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.profiles.[0].catchment", IsCollectionContaining.hasItem("3026")))

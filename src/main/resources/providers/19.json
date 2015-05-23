@@ -1,0 +1,46 @@
+{
+        "name": "Dr.Md. Alauddin",
+        "url": "http://provider.example.org/api/1.0/providers/19.json",
+        "id": 19,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1955-01-01",
+        "gender": "Male",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 19
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "33312"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01715139433"
+            },
+            {
+                "system": "email",
+                "value": ""
+            }
+        ],
+        "address": {
+            "text": "Mohisbathan,rajshahi"
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "MBBS",
+            "category": "Physican",
+            "discipline": "N/A",
+            "department": null
+        }
+    }

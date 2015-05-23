@@ -1,0 +1,43 @@
+{
+    "name": "Bahmni2",
+    "url": "",
+    "id": "10019842",
+    "active": 1,
+    "createdAt": "",
+    "updatedAt": "2015-04-23 11:24:28",
+    "coordinates": [
+        "",
+        ""
+    ],
+    "identifiers": {
+        "agency": "Other/not elsewhere classified",
+        "context": "HRM",
+        "id": 19430
+    },
+    "properties": {
+        "ownership": "",
+        "org_type": "Medical University",
+        "org_level": "National",
+        "care_level": "",
+        "deleted_at": null,
+        "services": [],
+        "locations": {
+            "division_code": "30",
+            "district_code": "26",
+            "upazila_code": "18",
+            "paurasava_code": "",
+            "union_code": "",
+            "ward_code": ""
+        },
+        "contacts": {
+            "name": "",
+            "email": "nehashrl@thoughtworks.com",
+            "phone": "",
+            "mobile": "",
+            "fax": ""
+        },
+        "catchment": [
+            "302618"
+        ]
+    }
+}

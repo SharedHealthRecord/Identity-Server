@@ -1,0 +1,46 @@
+{
+        "name": "DR.SK.MD.MANZUR RAHMAN",
+        "url": "http://provider.example.org/api/1.0/providers/22.json",
+        "id": 22,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1962-11-18",
+        "gender": "Male",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 22
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "1000283"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "01715384820"
+            },
+            {
+                "system": "email",
+                "value": "manzur2142@yahoo.com"
+            }
+        ],
+        "address": {
+            "text": "UH&FPO,Sadar Upazila, Magura."
+        },
+        "properties": {
+            "postingOption": "Against Sanctioned Post ",
+            "maritalStatus": "Married",
+            "qualification": "MBBS",
+            "category": "Physican",
+            "discipline": "Administration",
+            "department": null
+        }
+    }
