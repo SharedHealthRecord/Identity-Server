@@ -2,6 +2,7 @@ package org.freeshr.identity.repository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.freeshr.identity.model.Resource;
+import org.freeshr.identity.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
@@ -86,7 +87,7 @@ public class ResourceRepository {
 
         Date sinceDate = null;
         if (!StringUtils.isBlank(updatedSince)) {
-            sinceDate = dateFormat.parse(updatedSince);
+            sinceDate = DateUtil.parseDate(updatedSince);
         }
 
         ArrayList<ResourceUpdate> locationUpdatesForType = resourceFeeds.get(type);
