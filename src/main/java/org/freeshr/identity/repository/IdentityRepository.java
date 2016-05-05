@@ -17,7 +17,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Component
 public class IdentityRepository extends PropertyReader {
-    private final int USER_SESSION_TIMEOUT = 10;
+    private final int USER_SESSION_TIMEOUT = 600;
 
     private Map<String, String> userPasswords = new HashMap<>();
     private Map<String, UserCredentials> sessions = new PassiveExpiringMap<>(USER_SESSION_TIMEOUT, SECONDS);
