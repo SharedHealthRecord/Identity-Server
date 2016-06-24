@@ -1,7 +1,6 @@
 package org.freeshr.identity.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.freeshr.identity.model.UserCredentials;
 import org.freeshr.identity.model.UserInfo;
 import org.springframework.stereotype.Component;
@@ -11,21 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Component
 public class IdentityRepository extends PropertyReader {
-    private final int USER_SESSION_TIMEOUT = 10;
-
-    private Map<String, String> userPasswords = new HashMap<>();
-    private Map<String, UserCredentials> sessions = new PassiveExpiringMap<>(USER_SESSION_TIMEOUT, SECONDS);
-    private Map<String, UserInfo> userTokens = new PassiveExpiringMap<>(USER_SESSION_TIMEOUT, SECONDS);
-    private Map<String, String> clients = new HashMap<>();
+    Map<String, String> userPasswords = new HashMap<>();
+    Map<String, UserCredentials> sessions = new HashMap<>();
+    Map<String, UserInfo> userTokens = new HashMap<>();
+    Map<String, String> clients = new HashMap<>();
     private Map<String, String> users = new HashMap<>();
 
-    IdentityRepository() throws IOException {
+    public IdentityRepository() throws IOException {
         loadUserPasswords();
         loadClients();
         loadUserProfiles();
