@@ -1,0 +1,39 @@
+{
+        "name": "Dr. New. DOctor someone",
+        "url": "http://provider.example.org/api/1.0/providers/130276.json",
+        "id": 130276,
+        "active": 1,
+        "createdAt": "2014-11-27 00:00:00",
+        "updatedAt": "2014-11-27 15:23:23",
+        "birthDate": "1965-10-10",
+        "gender": "Male",
+        "organization": null,
+        "identifiers": [
+            {
+                "system": "DGHS",
+                "value": 130276
+            },
+            {
+                "system": "NationalId",
+                "value": null
+            },
+            {
+                "system": "PDS",
+                "value": "40549"
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "485323432"
+            },
+            {
+                "system": "email",
+                "value": "afdfa"
+            }
+        ],
+        "address": {
+
+        }
+
+    }
