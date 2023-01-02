@@ -2,3 +2,4 @@
 !Dockerfile
 !env/docker_identity-server
 !build/distributions/identity-server-*.noarch.rpm
+!build/libs/IdentityService.war
